@@ -16,3 +16,4 @@ node_modules/
 dist/
 .vscode/
 .idea/
+.venv_beta_backup/
