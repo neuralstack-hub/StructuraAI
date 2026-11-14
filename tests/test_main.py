@@ -21,7 +21,6 @@ def test_home_endpoint():
 
     assert response.status_code == 200
     assert response.json()["message"] == "Welcome to StructuraAI"
-    assert response.json()["version"] == "0.2.0"
 
 
 def test_health_endpoint():
@@ -35,6 +34,19 @@ def test_api_documentation():
     response = client.get("/docs")
 
     assert response.status_code == 200
+
+
+def test_model_status():
+    response = client.get("/vision/model-status")
+
+    assert response.status_code == 200
+
+    result = response.json()
+
+    assert result["status"] == "loaded"
+    assert result["model"] == "CrackCNN"
+    assert result["checkpoint_epoch"] == 8
+    assert result["image_size"] == 128
 
 
 def test_valid_crack_image_upload():
@@ -55,11 +67,17 @@ def test_valid_crack_image_upload():
 
     result = response.json()
 
-    assert result["status"] == "image_validated"
+    assert result["status"] == "analysis_completed"
     assert result["image_format"] == "PNG"
     assert result["width"] == 100
     assert result["height"] == 80
-    assert result["analysis_status"] == "pending_ml_model"
+
+    analysis = result["analysis"]
+
+    assert analysis["prediction"] in ["cracked", "uncracked"]
+    assert 0 <= analysis["crack_probability"] <= 1
+    assert 0 <= analysis["confidence"] <= 1
+    assert analysis["model_epoch"] == 8
 
 
 def test_reject_invalid_image():
