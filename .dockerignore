@@ -1,4 +1,3 @@
-
 .venv
 .venv_*
 venv
@@ -18,5 +17,14 @@ data
 .env
 .env.*
 !.env.example
+
+ml/vision/experiments/**
+!ml/vision/experiments/grouped/
+!ml/vision/experiments/grouped/best_crack_cnn_grouped_epoch8.pth
+
+ml/vision/models/checkpoints/
+ml/vision/models/crack_cnn_baseline.py
+ml/vision/scripts/
+ml/vision/training_history.csv
 
 .DS_Store
