@@ -39,7 +39,7 @@ def test_api_documentation():
 def test_model_status():
     response = client.get("/vision/model-status")
 
-    assert response.status_code == 200
+    assert response.status_code == 200, response.text
 
     result = response.json()
 
@@ -63,7 +63,7 @@ def test_valid_crack_image_upload():
         }
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 200, response.text
 
     result = response.json()
 
